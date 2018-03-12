@@ -1,0 +1,102 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'truefalsechanger'
+version = '1.0.0'
+
+bintray {
+    user = 'bongsungchan'
+    key = '8bc5cc23b2f98534341b7fd34c57fa137d5b5d36'
+    publish = true // [Default: false] Whether version should be auto published after an upload
+    pkg {
+        repo = 'kimbongline'
+        name = 'truefalsechanger'
+        userOrg = 'kimbongline'
+        licenses = ['Apache-2.0']
+        version {
+            name = '1.0.0-beta'
+            desc = '김봉라인 True, False API Changer'
+            released = new Date()
+            vcsTag = '1.0.0'
+            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+        }
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'truefalsechanger'
+            description '김봉라인 True, False API Changer'
+            url 'https://github.com/bongsungchan/TestLibrary_kimbong'
+            inceptionYear '2018' // release date
+            // Gradle dependencies
+            packaging 'aar'
+            groupId 'com.kimbongline'
+            artifactId 'truefalsechanger'
+            version '1.0.0'
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm { // Optional
+                connection 'https://github.com/shnoble/android-maven-jcenter.git'
+                developerConnection 'https://github.com/shnoble/android-maven-jcenter'
+                url 'https://github.com/shnoble/android-maven-jcenter'
+            }
+
+            developers { // Optional
+                developer {
+                    id 'kimbongline'
+                    name 'kimbongline'
+                    email 'kimbongline@gmail.com'
+                }
+            }
+        }
+    }
+}
+
+
+// JCenter publish
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+task findConventions << {
+    println project.getConvention()
+}
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
